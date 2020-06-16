@@ -30,6 +30,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * 通过 scorecard 生成 PMML 文件
+ */
 public class ScorecardPMMLGenerator {
 
     private static final String PMML_VERSION = "4.2.1";

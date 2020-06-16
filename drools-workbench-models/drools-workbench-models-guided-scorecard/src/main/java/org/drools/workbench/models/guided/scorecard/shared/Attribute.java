@@ -16,6 +16,9 @@
 
 package org.drools.workbench.models.guided.scorecard.shared;
 
+/**
+ * 对于于评分表下 {@link Characteristic} 下方的属性
+ */
 public class Attribute {
 
     private String value;

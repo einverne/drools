@@ -19,10 +19,17 @@ public class Message {
 
     private String name;
     private String text;
+    private int score;
 
     public Message(String name, String text) {
         this.text = text;
         this.name = name;
+    }
+
+    public Message(String name, String text, int score) {
+        this.name = name;
+        this.text = text;
+        this.score = score;
     }
 
     public String getText() {
@@ -41,8 +48,21 @@ public class Message {
         this.name = name;
     }
 
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    @Override
     public String toString() {
-        return "Message[name='" + name + "' text='" + text + "'";
+        return "Message{" +
+            "name='" + name + '\'' +
+            ", text='" + text + '\'' +
+            ", score=" + score +
+            '}';
     }
 
     @Override

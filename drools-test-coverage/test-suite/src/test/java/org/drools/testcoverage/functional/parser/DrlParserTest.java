@@ -27,6 +27,9 @@ import org.junit.runners.Parameterized.Parameters;
 import org.kie.api.KieServices;
 import org.kie.api.io.Resource;
 
+/**
+ * 解析 DRL 文件
+ */
 public class DrlParserTest extends ParserTest {
 
     public DrlParserTest(final File file, final KieBaseTestConfiguration kieBaseTestConfiguration) {

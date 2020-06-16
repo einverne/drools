@@ -58,6 +58,9 @@ public class NamedKieSessionFromFileExample {
         return o;
     }
 
+    /**
+     * 在 drools-examples-api 项目中获取名为 exampleName 的File
+     */
     public static File getFile(String exampleName) {
         File folder = new File("drools-examples-api").getAbsoluteFile();
         File exampleFolder = null;

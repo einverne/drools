@@ -24,6 +24,9 @@ public class Applicant {
     String  residenceState;
     double totalScore;
     boolean validLicense;
+    double variableA;
+    double variableB;
+    boolean blackList;
 
     public String getReasonCodes() {
         return reasonCodes;
@@ -76,5 +79,29 @@ public class Applicant {
 
     public void setResidenceState(String residenceState) {
         this.residenceState = residenceState;
+    }
+
+    public double getVariableA() {
+        return variableA;
+    }
+
+    public void setVariableA(double variableA) {
+        this.variableA = variableA;
+    }
+
+    public double getVariableB() {
+        return variableB;
+    }
+
+    public void setVariableB(double variableB) {
+        this.variableB = variableB;
+    }
+
+    public boolean isBlackList() {
+        return blackList;
+    }
+
+    public void setBlackList(boolean blackList) {
+        this.blackList = blackList;
     }
 }

@@ -34,95 +34,98 @@ import org.drools.scorecards.parser.AbstractScorecardParser;
 import org.drools.scorecards.parser.ScorecardParseException;
 import org.drools.scorecards.pmml.ScorecardPMMLGenerator;
 
+/**
+ * 解析XLS文件获得 Scorecard
+ */
 public class XLSScorecardParser extends AbstractScorecardParser {
 
-    protected XLSEventDataCollector excelDataCollector;
-    private Scorecard scorecard;
-    private PMML pmmlDocument = null;
-    List<ScorecardError> parseErrors = new ArrayList<ScorecardError>();
-    private HSSFSheet currentWorksheet;
+  protected XLSEventDataCollector excelDataCollector;
+  private Scorecard scorecard;
+  private PMML pmmlDocument = null;
+  List<ScorecardError> parseErrors = new ArrayList<ScorecardError>();
+  private HSSFSheet currentWorksheet;
 
-    @Override
-    public List<ScorecardError>  parseFile(InputStream inStream, String worksheetName) throws ScorecardParseException {
-        try {
-            excelDataCollector = new XLSEventDataCollector();
-            excelDataCollector.setParser(this);
-            HSSFWorkbook workbook = new HSSFWorkbook(inStream);
-            HSSFSheet worksheet = workbook.getSheet(worksheetName);
-            if (worksheet != null) {
-                currentWorksheet = worksheet;
-                excelDataCollector.sheetStart(worksheetName);
-                excelDataCollector.setMergedRegionsInSheet(getMergedCellRangeList(worksheet));
-                processSheet(worksheet);
-                excelDataCollector.sheetComplete();
-                parseErrors = excelDataCollector.getParseErrors();
-                scorecard = excelDataCollector.getScorecard();
+  @Override
+  public List<ScorecardError> parseFile(InputStream inStream, String worksheetName) throws ScorecardParseException {
+    try {
+      excelDataCollector = new XLSEventDataCollector();
+      excelDataCollector.setParser(this);
+      HSSFWorkbook workbook = new HSSFWorkbook(inStream);
+      HSSFSheet worksheet = workbook.getSheet(worksheetName);
+      if (worksheet != null) {
+        currentWorksheet = worksheet;
+        excelDataCollector.sheetStart(worksheetName);
+        excelDataCollector.setMergedRegionsInSheet(getMergedCellRangeList(worksheet));
+        processSheet(worksheet);
+        excelDataCollector.sheetComplete();
+        parseErrors = excelDataCollector.getParseErrors();
+        scorecard = excelDataCollector.getScorecard();
+      } else {
+        throw new ScorecardParseException("No worksheet found with name '" + worksheetName + "'.");
+      }
+    } catch (IOException e) {
+      throw new ScorecardParseException(e);
+    }
+    return parseErrors;
+  }
+
+  @Override
+  public PMML getPMMLDocument() {
+    if (pmmlDocument == null) {
+      pmmlDocument = new ScorecardPMMLGenerator().generateDocument(scorecard);
+    }
+    return pmmlDocument;
+  }
+
+  private void processSheet(HSSFSheet worksheet) throws ScorecardParseException {
+    for (Row row : worksheet) {
+      int currentRowCtr = row.getRowNum();
+      excelDataCollector.newRow(currentRowCtr);
+      for (Cell cell : row) {
+        int currentColCtr = cell.getColumnIndex();
+        switch (cell.getCellType()) {
+          case STRING:
+            excelDataCollector.newCell(currentRowCtr, currentColCtr, cell.getStringCellValue());
+            break;
+          case NUMERIC:
+            if (DateUtil.isCellDateFormatted(cell)) {
+              excelDataCollector.newCell(currentRowCtr, currentColCtr, cell.getDateCellValue());
             } else {
-                throw new ScorecardParseException("No worksheet found with name '" + worksheetName + "'.");
+              excelDataCollector.newCell(currentRowCtr, currentColCtr, Double.valueOf(cell.getNumericCellValue()));
             }
-        } catch (IOException e) {
-            throw new ScorecardParseException(e);
+            break;
+          case BOOLEAN:
+            excelDataCollector.newCell(currentRowCtr, currentColCtr, Boolean.valueOf(cell.getBooleanCellValue()).toString());
+            break;
+          case FORMULA:
+            break;
+          case BLANK:
+            excelDataCollector.newCell(currentRowCtr, currentColCtr, "");
+            break;
         }
-        return parseErrors;
+      }
     }
+  }
 
-    @Override
-    public PMML getPMMLDocument() {
-        if (pmmlDocument == null) {
-            pmmlDocument = new ScorecardPMMLGenerator().generateDocument(scorecard);
+  public String peekValueAt(int row, int col) {
+    if (currentWorksheet != null) {
+      if (row >= 0 && row < currentWorksheet.getLastRowNum()) {
+        HSSFRow hssfRow = currentWorksheet.getRow(row);
+        if (hssfRow != null && col >= 0 && col < hssfRow.getLastCellNum()) {
+          return hssfRow.getCell(col).getStringCellValue();
         }
-        return pmmlDocument;
+      }
     }
+    return null;
+  }
 
-    private void processSheet(HSSFSheet worksheet) throws ScorecardParseException {
-        for (Row row : worksheet) {
-            int currentRowCtr = row.getRowNum();
-            excelDataCollector.newRow(currentRowCtr);
-            for (Cell cell : row) {
-                int currentColCtr = cell.getColumnIndex();
-                switch (cell.getCellType()) {
-                    case STRING:
-                        excelDataCollector.newCell(currentRowCtr, currentColCtr, cell.getStringCellValue());
-                        break;
-                    case NUMERIC:
-                        if (DateUtil.isCellDateFormatted(cell)) {
-                            excelDataCollector.newCell(currentRowCtr, currentColCtr, cell.getDateCellValue());
-                        } else {
-                            excelDataCollector.newCell(currentRowCtr, currentColCtr, Double.valueOf(cell.getNumericCellValue()));
-                        }
-                        break;
-                    case BOOLEAN:
-                        excelDataCollector.newCell(currentRowCtr, currentColCtr, Boolean.valueOf(cell.getBooleanCellValue()).toString());
-                        break;
-                    case FORMULA:
-                        break;
-                    case BLANK:
-                        excelDataCollector.newCell(currentRowCtr, currentColCtr, "");
-                        break;
-                }
-            }
-        }
+  private List<MergedCellRange> getMergedCellRangeList(HSSFSheet worksheet) {
+    List<MergedCellRange> mergedCellRanges = new ArrayList<MergedCellRange>();
+    int mergedRegionsCount = worksheet.getNumMergedRegions();
+    for (int ctr = 0; ctr < mergedRegionsCount; ctr++) {
+      CellRangeAddress rangeAddress = worksheet.getMergedRegion(ctr);
+      mergedCellRanges.add(new MergedCellRange(rangeAddress.getFirstRow(), rangeAddress.getFirstColumn(), rangeAddress.getLastRow(), rangeAddress.getLastColumn()));
     }
-
-    public String peekValueAt(int row, int col) {
-        if (currentWorksheet != null){
-            if ( row >= 0 && row < currentWorksheet.getLastRowNum() ) {
-                HSSFRow hssfRow = currentWorksheet.getRow(row);
-                if (hssfRow != null && col >= 0 && col < hssfRow.getLastCellNum()){
-                    return hssfRow.getCell(col).getStringCellValue();
-                }
-            }
-        }
-        return null;
-    }
-
-    private List<MergedCellRange> getMergedCellRangeList(HSSFSheet worksheet) {
-        List<MergedCellRange> mergedCellRanges = new ArrayList<MergedCellRange>();
-        int mergedRegionsCount = worksheet.getNumMergedRegions();
-        for (int ctr = 0; ctr < mergedRegionsCount; ctr++) {
-            CellRangeAddress rangeAddress = worksheet.getMergedRegion(ctr);
-            mergedCellRanges.add(new MergedCellRange(rangeAddress.getFirstRow(), rangeAddress.getFirstColumn(), rangeAddress.getLastRow(), rangeAddress.getLastColumn()));
-        }
-        return mergedCellRanges;
-    }
+    return mergedCellRanges;
+  }
 }

@@ -40,6 +40,12 @@ import org.slf4j.LoggerFactory;
 import static org.drools.compiler.kie.builder.impl.KieBuilderImpl.JAVA_ROOT;
 import static org.drools.compiler.kie.builder.impl.KieBuilderImpl.RESOURCES_ROOT;
 
+/**
+ * 包含一个 {@link MemoryFileSystem} 对象
+ * 实现了一个内存中的 KieFileSystem
+ *
+ * 可以用其API手动进行 KIE package 的创建
+ */
 public class KieFileSystemImpl
         implements
         KieFileSystem,

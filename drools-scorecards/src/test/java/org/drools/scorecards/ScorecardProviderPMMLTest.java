@@ -58,6 +58,9 @@ public class ScorecardProviderPMMLTest {
         assertTrue(drl.length() > 0);
     }
 
+    /**
+     * 直接从 pmml 文件执行
+     */
     @Test
     public void testKnowledgeBaseWithExecution() {
         PMML4ExecutionHelper helper = PMML4ExecutionHelperFactory.getExecutionHelper("Sample Score", "/SimpleScorecard.pmml", null);

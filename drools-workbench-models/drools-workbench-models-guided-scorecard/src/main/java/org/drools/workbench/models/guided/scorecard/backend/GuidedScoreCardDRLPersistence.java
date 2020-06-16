@@ -43,8 +43,16 @@ import org.kie.soup.project.datamodel.imports.Import;
 
 public class GuidedScoreCardDRLPersistence {
 
+    /**
+     * 支持的符号运算
+     */
     private static final List<String> NUMERIC_OPERATORS = Arrays.asList("=", ">", "<", ">=", "<=");
 
+    /**
+     * 将定义的 ScoreCardModel 转换成 KIE 能理解的源文件
+     * @param model model
+     * @return source code
+     */
     public static String marshal(final ScoreCardModel model) {
         final PMML pmml = createPMMLDocument(model);
 

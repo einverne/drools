@@ -79,6 +79,7 @@ public class ScoreCardProviderImpl
             scorecardCompiler.setDrlType(ScorecardCompiler.DrlType.EXTERNAL_OBJECT_MODEL);
         }
         String inputTypeExcel = ScoreCardConfiguration.SCORECARD_INPUT_TYPE.EXCEL.toString();
+        // 根据不同的类型编译 EXCEL 或者 PMML
         if (configuration == null || configuration.getInputType() == null || inputTypeExcel.equalsIgnoreCase(configuration.getInputType())) {
             if (configuration == null || StringUtils.isEmpty(configuration.getWorksheetName())) {
                 scorecardCompiler.compileFromExcel(is);

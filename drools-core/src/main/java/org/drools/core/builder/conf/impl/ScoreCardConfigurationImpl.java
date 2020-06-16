@@ -23,6 +23,9 @@ import org.kie.internal.builder.ScoreCardConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * 评分卡配置实现
+ */
 public class ScoreCardConfigurationImpl extends ResourceConfigurationImpl implements ScoreCardConfiguration {
     public static final String DROOLS_SCARD_WORKSHEET = "drools.dt.worksheet";
     public static final String DROOLS_SCARD_USE_EXTERNAL_TYPES = "drools.sc.useExternalTypes";
@@ -30,10 +33,19 @@ public class ScoreCardConfigurationImpl extends ResourceConfigurationImpl implem
 
     private final Logger logger = LoggerFactory.getLogger( ScoreCardConfigurationImpl.class );
 
+    /**
+     * 对应于 xls 文件中的表格名字
+     */
     private String worksheetName;
+    /**
+     * 是否使用外部的类型
+     */
     private boolean useExternalTypes = false;
     private SCORECARD_INPUT_TYPE inputType;
 
+    /**
+     * EXCEL 类型
+     */
     public ScoreCardConfigurationImpl() {
         inputType = SCORECARD_INPUT_TYPE.EXCEL;
     }

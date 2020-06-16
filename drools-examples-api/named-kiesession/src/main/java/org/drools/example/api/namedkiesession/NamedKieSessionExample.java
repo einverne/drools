@@ -21,6 +21,9 @@ import org.kie.api.runtime.KieSession;
 
 import java.io.PrintStream;
 
+/**
+ * 测试有名字的 KieSession
+ */
 public class NamedKieSessionExample {
 
     public void go(PrintStream out) {

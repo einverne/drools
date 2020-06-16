@@ -74,6 +74,9 @@ public class ScorecardProviderTest {
         assertNotNull(kbase);
     }
 
+    /**
+     * 执行评分表
+     */
     @Test
     public void testKnowledgeBaseWithExection() {
         InputStream is = ScorecardProviderTest.class.getResourceAsStream("/scoremodel_c.xls");
@@ -108,6 +111,10 @@ public class ScorecardProviderTest {
         assertEquals(56.0, calculatedScore, 1e-6);
     }
 
+    /**
+     * 运行一个 xls 获取评分卡结果
+     * 这个评分表应用了 External 类型
+     */
     @Test
     public void testDrlGenerationWithExternalTypes() {
 
@@ -132,6 +139,9 @@ public class ScorecardProviderTest {
         applicant.setOccupation("PROGRAMMER");
         applicant.setResidenceState("AP");
         applicant.setValidLicense(true);
+        applicant.setVariableA(1D);
+        applicant.setVariableB(45D);
+        applicant.setBlackList(false);
 
         PMML4Result resultHolder = new PMML4Result("123");
         List<String> possiblePackages = TestUtil.calculatePossiblePackageNames("Sample Score", "org.drools.scorecards.example");
@@ -146,6 +156,6 @@ public class ScorecardProviderTest {
         assertTrue(count > 0);
 
         Double calculatedScore = resultHolder.getResultValue("Scorecard__calculatedScore", "value", Double.class).orElse(null);
-        assertEquals(36.0, calculatedScore, 1e-6);
+        assertEquals(31136.0, calculatedScore, 1e-6);
     }
 }

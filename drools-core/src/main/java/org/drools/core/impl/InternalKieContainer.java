@@ -29,14 +29,14 @@ public interface InternalKieContainer extends KieContainer {
 
     /**
      * Returns an already created defualt KieSession for this KieContainer or creates a new one
-     * @throws RuntimeException if this KieContainer doesn't have any defualt KieSession
+     * @throws RuntimeException if this KieContainer doesn't have any default KieSession
      * @see org.kie.api.builder.model.KieSessionModel#setDefault(boolean)
      */
     KieSession getKieSession();
 
     /**
      * Returns an already created KieSession with the given name for this KieContainer or creates a new one
-     * @throws RuntimeException if this KieContainer doesn't have any defualt KieSession
+     * @throws RuntimeException if this KieContainer doesn't have any default KieSession
      * @see org.kie.api.builder.model.KieSessionModel#setDefault(boolean)
      */
     KieSession getKieSession(String kSessionName);
@@ -46,8 +46,8 @@ public interface InternalKieContainer extends KieContainer {
     StatelessKieSession getStatelessKieSession(String kSessionName);
 
     /**
-     * Internal use: returns the RelaseId configured while creating the Kiecontainer, 
-     * or alternatively if the RelaseId was NOT configured while creating the Kiecontainer,
+     * Internal use: returns the ReleaseId configured while creating the Kiecontainer,
+     * or alternatively if the ReleaseId was NOT configured while creating the Kiecontainer,
      * returns the the ReleaseId of the KieModule wrapped by this KieContainer. 
      * Additionally, please notice this will always gets updated to the parameter passed as updateToVersion(ReleaseId).
      * @see org.kie.api.runtime.KieContainer#getReleaseId()
@@ -73,8 +73,8 @@ public interface InternalKieContainer extends KieContainer {
 	String getContainerId();
 	
 	/**
-	 * Returns the RelaseId configured while creating the Kiecontainer.
-	 * @return the RelaseId configured while creating the Kiecontainer.
+	 * Returns the ReleaseId configured while creating the Kiecontainer.
+	 * @return the ReleaseId configured while creating the Kiecontainer.
 	 */
 	ReleaseId getConfiguredReleaseId();
 	

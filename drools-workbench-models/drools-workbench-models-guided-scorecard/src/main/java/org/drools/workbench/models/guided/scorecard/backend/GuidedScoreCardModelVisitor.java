@@ -30,6 +30,9 @@ import org.kie.soup.project.datamodel.imports.Imports;
  */
 public class GuidedScoreCardModelVisitor {
 
+    /**
+     * 评分卡内容
+     */
     private final ScoreCardModel model;
     private final String packageName;
     private final Imports imports;

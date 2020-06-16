@@ -45,6 +45,7 @@ public class DrlFromPMMLTest {
     @Before
     public void setUp() throws Exception {
         ScorecardCompiler scorecardCompiler = new ScorecardCompiler(INTERNAL_DECLARED_TYPES);
+        // 从 xls 文件中构建 scorecard
         if (scorecardCompiler.compileFromExcel(PMMLDocumentTest.class.getResourceAsStream("/scoremodel_c.xls")) ) {
             PMML pmmlDocument = scorecardCompiler.getPMMLDocument();
             assertNotNull( pmmlDocument );

@@ -18,6 +18,9 @@
     <java.module.name>org.drools.compiler</java.module.name>
     <excludedGroups>org.kie.test.testcategory.TurtleTestCategory</excludedGroups>
     <surefire.forkCount>2</surefire.forkCount>
+    <parsedVersion.majorVersion>7</parsedVersion.majorVersion>
+    <parsedVersion.minorVersion>28</parsedVersion.minorVersion>
+    <parsedVersion.incrementalVersion>0</parsedVersion.incrementalVersion>
   </properties>
 
   <dependencies>

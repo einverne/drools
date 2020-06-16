@@ -7,8 +7,10 @@
   </nodes>
   <notes />
   <edges />
-  <settings layout="Hierarchic Group" zoom="1.0" x="42.0" y="12.0" />
-  <SelectedNodes />
+  <settings layout="Hierarchic Group" zoom="1.0" x="-453.0" y="-193.0" />
+  <SelectedNodes>
+    <node>mdl-kie-pmml</node>
+  </SelectedNodes>
   <Categories />
 </Diagram>
 

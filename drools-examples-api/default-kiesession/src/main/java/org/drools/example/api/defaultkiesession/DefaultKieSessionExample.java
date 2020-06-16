@@ -29,8 +29,10 @@ public class DefaultKieSessionExample {
 
         KieSession kSession = kContainer.newKieSession();
         kSession.setGlobal("out", out);
-        kSession.insert(new Message("Dave", "Hello, HAL. Do you read me, HAL?"));
+        Message m = new Message("Dave", "Hello, HAL. Do you read me, HAL?");
+        kSession.insert(m);
         kSession.fireAllRules();
+        System.out.println(m);
     }
 
 

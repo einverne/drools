@@ -35,6 +35,10 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.List;
 
+/**
+ * 评分卡编译器
+ * 内部借助 {@link PMML4Compiler}
+ */
 public class ScorecardCompiler {
 
     private PMML4Compiler compiler = new PMML4Compiler();

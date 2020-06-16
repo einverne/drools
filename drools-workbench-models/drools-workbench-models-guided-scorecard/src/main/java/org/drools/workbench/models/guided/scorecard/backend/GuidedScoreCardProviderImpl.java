@@ -39,6 +39,11 @@ import java.io.Serializable;
 
 public class GuidedScoreCardProviderImpl implements GuidedScoreCardProvider {
 
+    /**
+     * 从 InputStream 中整理 marshal
+     * @param is inputStream
+     * @return PMML
+     */
     @Override
     public String loadFromInputStream(InputStream is) throws IOException {
         String xml = new String(IoUtils.readBytesFromInputStream(is), IoUtils.UTF8_CHARSET);

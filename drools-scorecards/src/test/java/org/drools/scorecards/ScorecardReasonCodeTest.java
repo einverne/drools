@@ -82,6 +82,9 @@ public class ScorecardReasonCodeTest {
         }
     }
 
+    /**
+     * 同来测试从 XLS 文件解析
+     */
     @Test
     public void testUseReasonCodes() {
         final ScorecardCompiler scorecardCompiler = new ScorecardCompiler(INTERNAL_DECLARED_TYPES);
@@ -95,7 +98,7 @@ public class ScorecardReasonCodeTest {
         for (Object serializable : pmmlDocument.getAssociationModelsAndBaselineModelsAndClusteringModels()) {
             if (serializable instanceof Scorecard) {
                 assertTrue(((Scorecard) serializable).getUseReasonCodes());
-                assertEquals(100.0, ((Scorecard) serializable).getInitialScore(), 0.0);
+                assertEquals(101.0, ((Scorecard) serializable).getInitialScore(), 0.0);
                 assertEquals("pointsBelow", ((Scorecard) serializable).getReasonCodeAlgorithm());
             }
         }
@@ -251,6 +254,9 @@ public class ScorecardReasonCodeTest {
         return lhm;
     }
 
+    /**
+     * Partial Score - Baseline Score
+     */
     @Test
     public void testPointsAbove() {
         Resource resource = ResourceFactory.newClassPathResource("scoremodel_reasoncodes.xls").setResourceType(ResourceType.SCARD);
@@ -302,6 +308,9 @@ public class ScorecardReasonCodeTest {
         assertReasonCode(resultHolder, "AGE03");
     }
 
+    /**
+     * 测试 Baseline Score - Partial Score
+     */
     @Test
     public void testPointsBelow() {
         Resource resource = ResourceFactory.newClassPathResource("scoremodel_reasoncodes.xls").setResourceType(ResourceType.SCARD);

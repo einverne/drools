@@ -35,6 +35,11 @@ import org.kie.internal.builder.ResourceChange;
 import org.kie.internal.builder.ResourceChangeSet;
 import org.kie.internal.io.ResourceWithConfigurationImpl;
 
+/**
+ * 复合的 Builder
+ *
+ * 主要实现 add 方法
+ */
 public class CompositeKnowledgeBuilderImpl implements CompositeKnowledgeBuilder {
 
     private final KnowledgeBuilderImpl kBuilder;
@@ -43,6 +48,9 @@ public class CompositeKnowledgeBuilderImpl implements CompositeKnowledgeBuilder 
 
     private RuntimeException buildException = null;
 
+    /**
+     * 资源类型
+     */
     public ResourceType currentType = null;
 
     public CompositeKnowledgeBuilderImpl(KnowledgeBuilderImpl kBuilder) {
@@ -69,6 +77,13 @@ public class CompositeKnowledgeBuilderImpl implements CompositeKnowledgeBuilder 
         return add(resource, type, resource.getConfiguration(), changes);
     }
 
+    /**
+     *
+     * @param resource 资源
+     * @param type 资源类型
+     * @param configuration 资源的配置
+     * @return
+     */
     public CompositeKnowledgeBuilder add(Resource resource, ResourceType type, ResourceConfiguration configuration) {
         return add(resource, type, configuration, null);
     }
@@ -121,6 +136,9 @@ public class CompositeKnowledgeBuilderImpl implements CompositeKnowledgeBuilder 
     	buildResourceType(ResourceBuilder.CMMN_RESOURCE_BUILDER, ResourceType.CMMN);
     }
 
+    /**
+     * build difference resources according ResourceType
+     */
     private void buildResources() {
         buildResourceType(ResourceBuilder.DSL_RESOURCE_BUILDER, ResourceType.DSL);
         buildResourceType(ResourceBuilder.DRF_RESOURCE_BUILDER, ResourceType.DRF);
@@ -224,6 +242,9 @@ public class CompositeKnowledgeBuilderImpl implements CompositeKnowledgeBuilder 
         }
     }
 
+    /**
+     * 内部类 资源描述，包括 Resource ，资源的配置
+     */
     private static class ResourceDescr {
         final Resource resource;
         final ResourceConfiguration configuration;

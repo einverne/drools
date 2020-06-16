@@ -19,11 +19,26 @@ package org.drools.workbench.models.guided.scorecard.shared;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 对于于评分表 Guided Scorecard 中的 Characteristic
+ */
 public class Characteristic {
 
+    /**
+     * Fact 名字
+     */
     private String fact;
+    /**
+     * Fact 中需要评分的字段
+     */
     private String field;
+    /**
+     * 基准分数
+     */
     private double baselineScore;
+    /**
+     * 理由
+     */
     private String reasonCode;
     private List<Attribute> attributes = new ArrayList<Attribute>();
     private String name;
